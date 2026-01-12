@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   run_pytest:
-    runs-on: macos-13  # macOS Ventura
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 5
 
