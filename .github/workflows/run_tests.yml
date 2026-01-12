@@ -4,29 +4,37 @@ on: [push]
 
 jobs:
   run_pytest:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
+    runs-on: macos-13  # macOS Ventura
     strategy:
       max-parallel: 5
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Miniforge
-        uses: conda-incubator/setup-miniconda@v3
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
         with:
-          miniforge-version: latest
-          environment-file: environment.yml
+          python-version: '3.11'
 
-      - name: Conda info
-        run: conda info
+      - name: Create virtual environment
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          echo "VIRTUAL_ENV=${VIRTUAL_ENV}" >> $GITHUB_ENV
+          echo "${VIRTUAL_ENV}/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: |
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
       - name: Install package
         run: |
-           python -m pip install -e . --no-deps --force-reinstall
+          source venv/bin/activate
+          python -m pip install -e . --no-deps --force-reinstall
 
       - name: Running Tests
         run: |
+          source venv/bin/activate
           python -m pytest --verbose
