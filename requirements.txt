@@ -1,7 +1,7 @@
 cookiecutter
 ipython
 jupyter
-numpy==1.26.5
+numpy==1.26.4
 pandas==2.3
 ruff
 scikit-learn==1.8
