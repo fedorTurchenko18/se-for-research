@@ -11,3 +11,8 @@ where = ["src"]
 
 [tool.ruff]
 select = ["E", "F", "W", "D"] # pycodestyle(E,W), pyflakes (F), pydocstyle(D)
+
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "src",
+]
